@@ -6,16 +6,15 @@ import com.google.gson.JsonParser;
 
 import si.gounitis.trimixmix.model.SensorData;
 import si.gounitis.trimixmix.model.TrimixData;
-import si.gounitis.trimixmix.model.TrimixMode;
 import si.gounitis.trimixmix.model.Voltages;
 
-import static si.gounitis.trimixmix.model.TrimixMode.MODE_HELIUM_FIRST;
-import static si.gounitis.trimixmix.model.TrimixMode.MODE_OXYGEN_FIRST;
-
 public class Utils {
+
+    private static String TEST_STRING = "{\"ads0mv\":7.123,\"ads1mv\":2.325,\"ads2mv\":0.01,\"ads3mv\":0.01,\"adr0mv\":0.01,\"adr1mv\":0.01,\"adr2mv\":0.01,\"adr3mv\":0.01}";
+
     public static Voltages toJson(String measureString) {
         // todo - remove - just for test
-        measureString = "{\"ads0mv\":7.123,\"ads1mv\":2.325,\"ads2mv\":0.01,\"ads3mv\":0.01,\"adr0mv\":0.01,\"adr1mv\":0.01,\"adr2mv\":0.01,\"adr3mv\":0.01}";
+        measureString = TEST_STRING;
 
         if (measureString==null) return null;
 
@@ -45,30 +44,26 @@ public class Utils {
     }
 
     public static void calculateTrimix(TrimixData trimixData) {
-        // red sensor is firs sensor
-        SensorData afterOxygenSensor, afterHeliumSensor;
-        TrimixMode trimixMode;
+        SensorData firstSensor, secondSensor;
 
-        if (trimixData.getRedSensor().getFractionOxygen()>=20.9f) {
-            trimixMode = MODE_OXYGEN_FIRST;
-            afterOxygenSensor = trimixData.getRedSensor();
-            afterHeliumSensor = trimixData.getGreenSensor();
-        } else if (trimixData.getGreenSensor().getFractionOxygen()>=20.9f) {
-            trimixMode = MODE_HELIUM_FIRST;
-            afterHeliumSensor = trimixData.getRedSensor();
-            afterOxygenSensor = trimixData.getGreenSensor();
+        if (trimixData.isOxygenFirstMode()) {
+            if (trimixData.getRedSensor().getFractionOxygen()<20.9f && trimixData.getGreenSensor().getFractionOxygen()<20.9f) {
+                trimixData.setCalculated(false);
+                return;
+            }
+            if (trimixData.getRedSensor().getFractionOxygen() > trimixData.getGreenSensor().getFractionOxygen()) {
+                firstSensor = trimixData.getRedSensor();
+                secondSensor = trimixData.getGreenSensor();
+            } else {
+                firstSensor = trimixData.getGreenSensor();
+                secondSensor = trimixData.getRedSensor();
+            }
+            trimixData.setFractionOxygen(secondSensor.getFractionOxygen());
+            float fHe = 100 - secondSensor.getFractionOxygen()*100/firstSensor.getFractionOxygen();
+            trimixData.setFractionHelium(fHe);
+            trimixData.setCalculated(true);
         } else {
-            return;
+            throw new UnsupportedOperationException();
         }
-
-        trimixData.setFractionOxygen(trimixData.getGreenSensor().getFractionOxygen());
-
-        if (MODE_OXYGEN_FIRST.equals(trimixMode)) {
-            trimixData.setFractionHelium(0f); // todo
-        } else {
-            trimixData.setFractionHelium(0f); // todo
-        }
-
-
     }
 }

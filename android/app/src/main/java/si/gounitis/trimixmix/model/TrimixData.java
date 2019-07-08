@@ -1,10 +1,20 @@
 package si.gounitis.trimixmix.model;
 
 public class TrimixData {
+    private boolean oxygenFirstMode = true;
     private float fractionOxygen;
     private float fractionHelium;
     private SensorData redSensor = new SensorData();
     private SensorData greenSensor = new SensorData();
+    private boolean calculated = false;
+
+    public boolean isOxygenFirstMode() {
+        return oxygenFirstMode;
+    }
+
+    public void setOxygenFirstMode(boolean oxygenFirstMode) {
+        this.oxygenFirstMode = oxygenFirstMode;
+    }
 
     public float getFractionOxygen() {
         return fractionOxygen;
@@ -36,5 +46,13 @@ public class TrimixData {
 
     public void setGreenSensor(SensorData greenSensor) {
         this.greenSensor = greenSensor;
+    }
+
+    public boolean isCalculated() {
+        return calculated;
+    }
+
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
     }
 }

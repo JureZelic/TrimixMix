@@ -153,9 +153,11 @@ public class MainActivity extends AppCompatActivity {
         if (greenCalibrateButton!=null) greenCalibrateButton.setText("Calibrate (" + String.format("%.1f",(sensorData.getSensorVoltage()-sensorData.getSensorOffset())) + "mV)");
         if (greenSensorDisplay!=null && sensorData.isCalibrated() ) greenSensorDisplay.setText("" + String.format("%.1f",sensorData.getFractionOxygen()) + "%");
 
-        if (trimixDisplay!=null && trimixData.getRedSensor().isCalibrated() &&  trimixData.getGreenSensor().isCalibrated())
-            trimixDisplay.setText("Tx" + String.format("%.1f",trimixData.getFractionOxygen()) + "/" + String.format("%.1f",trimixData.getFractionHelium()));
-
+        if (trimixData.getRedSensor().isCalibrated() &&  trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
+            if (trimixDisplay!=null) trimixDisplay.setText("Tx" + String.format("%.1f", trimixData.getFractionOxygen()) + "/" + String.format("%.1f", trimixData.getFractionHelium()));
+        } else {
+            if (trimixDisplay!=null) trimixDisplay.setText("--------");
+        }
     }
 
     private void attachCalibrateHandlers() {
