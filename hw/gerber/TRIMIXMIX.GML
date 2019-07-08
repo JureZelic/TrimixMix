@@ -1,6 +1,6 @@
 G04*
-G04  File:            TRIMIXMIX.GML, Mon Jul 08 10:27:06 2019*
-G04  Source:          P-CAD 2000 PCB, Version 15.10.17, (C:\Jure\Projekti\gitprojekti\trimixMix\trimixMix\hw\trimixmix.pcb)*
+G04  File:            TRIMIXMIX.GML, Mon Jul 08 11:31:40 2019*
+G04  Source:          P-CAD 2000 PCB, Version 15.10.17, (C:\Jure\Projekti\gitprojekti\TrimixMix\hw\trimixmix.pcb)*
 G04  Format:          Gerber Format (RS-274-D), ASCII*
 G04*
 G04  Format Options:  Absolute Positioning*
@@ -209,11 +209,11 @@ G01*
 D2*
 %LNBoard*%
 D10*
-X64500Y42000*
-Y53250D1*
-X27250*
-X64500Y42000D2*
-X27250D1*
-Y53250D2*
+X28000Y53250*
 Y42000D1*
+X64000D2*
+Y53250D1*
+X28000*
+X64000Y42000D2*
+X28000D1*
 D02M02*
