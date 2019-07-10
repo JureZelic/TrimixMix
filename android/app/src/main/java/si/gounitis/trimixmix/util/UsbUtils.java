@@ -17,7 +17,6 @@ public class UsbUtils {
     private static final int USB_VENDOR_ID = 0x1A86;
     private static UsbDeviceConnection connection;
     private static UsbSerialDevice serialDevice;
-    private static String readData=null;
 
     public static void startUsbConnection(UsbManager usbManager, UsbSerialInterface.UsbReadCallback callback) {
         Map<String, UsbDevice> connectedDevices = usbManager.getDeviceList();

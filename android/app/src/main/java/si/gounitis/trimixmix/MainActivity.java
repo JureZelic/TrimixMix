@@ -1,5 +1,8 @@
 package si.gounitis.trimixmix;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import com.felhr.usbserial.UsbSerialInterface;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 import si.gounitis.trimixmix.model.SensorData;
 import si.gounitis.trimixmix.model.TrimixData;
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     // arduiono USB
     private UsbManager usbManager;
-    private String readData;
+    private ReadData readData = new ReadData();
 
     //
     private TrimixData trimixData = new TrimixData();
@@ -146,17 +150,35 @@ public class MainActivity extends AppCompatActivity {
         getMeasurenments();
 
         SensorData sensorData;
+
         sensorData = trimixData.getRedSensor();
-        if (redCalibrateButton!=null) redCalibrateButton.setText("Calibrate (" + String.format("%.1f",(sensorData.getSensorVoltage()-sensorData.getSensorOffset())) + "mV)");
-        if (redSensorDisplay!=null && sensorData.isCalibrated() ) redSensorDisplay.setText(""+String.format("%.1f",sensorData.getFractionOxygen()) + "%");
+        if (redCalibrateButton!=null) {
+            redCalibrateButton.setText("Calibrate (" + String.format("%.1f", (sensorData.getSensorVoltage() - sensorData.getSensorOffset())) + "mV)");
+        }
+
+        if (redSensorDisplay!=null && sensorData.isCalibrated() && sensorData.getFractionOxygen()>0f && sensorData.getFractionOxygen()<100f) {
+            redSensorDisplay.setText(""+String.format("%.1f",sensorData.getFractionOxygen()) + "%");
+        } else {
+            redSensorDisplay.setText("--------");
+        }
+
         sensorData = trimixData.getGreenSensor();
-        if (greenCalibrateButton!=null) greenCalibrateButton.setText("Calibrate (" + String.format("%.1f",(sensorData.getSensorVoltage()-sensorData.getSensorOffset())) + "mV)");
-        if (greenSensorDisplay!=null && sensorData.isCalibrated() ) greenSensorDisplay.setText("" + String.format("%.1f",sensorData.getFractionOxygen()) + "%");
+        if (greenCalibrateButton!=null) {
+            greenCalibrateButton.setText("Calibrate (" + String.format("%.1f", (sensorData.getSensorVoltage() - sensorData.getSensorOffset())) + "mV)");
+        }
+
+        if (greenSensorDisplay!=null && sensorData.isCalibrated() && sensorData.getFractionOxygen()>0f && sensorData.getFractionOxygen()<100f) {
+            greenSensorDisplay.setText("" + String.format("%.1f", sensorData.getFractionOxygen()) + "%");
+        } else {
+            greenSensorDisplay.setText("--------");
+        }
 
         if (trimixData.getRedSensor().isCalibrated() &&  trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
-            if (trimixDisplay!=null) trimixDisplay.setText("Tx" + String.format("%.1f", trimixData.getFractionOxygen()) + "/" + String.format("%.1f", trimixData.getFractionHelium()));
+            if (trimixDisplay!=null)
+                trimixDisplay.setText("Tx" + String.format("%.1f", trimixData.getFractionOxygen()) + "/" + String.format("%.1f", trimixData.getFractionHelium()));
         } else {
-            if (trimixDisplay!=null) trimixDisplay.setText("--------");
+            if (trimixDisplay!=null)
+                trimixDisplay.setText("--------");
         }
     }
 
@@ -164,21 +186,43 @@ public class MainActivity extends AppCompatActivity {
         final Button redCalibrateButton = findViewById(R.id.redCalibrateButton);
         redCalibrateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Utils.calibrate(trimixData.getRedSensor());
+                tryCalibrate(trimixData.getRedSensor());
             }
         });
         final Button greenCalibrateButton = findViewById(R.id.greenCalibrateButton);
         greenCalibrateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Utils.calibrate(trimixData.getGreenSensor());
+                tryCalibrate(trimixData.getGreenSensor());
             }
         });
     }
 
+    private void tryCalibrate(SensorData sensor) {
+        if (sensor.getSensorVoltage()<sensor.getSensorMinVoltage()) {
+// todo - make an error message
+            Utils.calibrate(sensor);
+        } else if (sensor.getSensorVoltage()>sensor.getSensorMaxVoltage()) {
+            Utils.calibrate(sensor);
+        } else {
+            Utils.calibrate(sensor);
+        }
+    }
+
     // calculations
     private void getMeasurenments() {
-        Voltages voltages = Utils.toJson(readData);
-        if (voltages==null) return;
+        Voltages voltages = null;
+        Date fiveSecondsAgo = new Date(System.currentTimeMillis() - (5 * 1000));
+        if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp())) {
+            voltages = Utils.toJson(readData.getValue());
+        }
+        if (voltages==null) {
+            trimixData.getRedSensor().setSensorVoltage(0);
+            trimixData.getRedSensor().setFractionOxygen(0);
+            trimixData.getGreenSensor().setSensorVoltage(0);
+            trimixData.getGreenSensor().setFractionOxygen(0);
+            trimixData.setCalculated(false);
+            return;
+        }
 
         SensorData sensorData;
         sensorData = trimixData.getRedSensor();
@@ -189,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
         Utils.calculateOxygen(sensorData);
 
         Utils.calculateTrimix(trimixData);
+
+
     }
 
     // USB
@@ -206,7 +252,8 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            readData=dataStr;
+                            readData.setValue(dataStr);
+                            readData.setTimestamp(new Date());
                         }
                     });
                 }
@@ -214,4 +261,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    private class ReadData {
+        private String value;
+        private Date timestamp;
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public Date getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(Date timestamp) {
+            this.timestamp = timestamp;
+        }
+    }
 }

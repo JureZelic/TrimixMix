@@ -14,7 +14,7 @@ public class Utils {
 
     public static Voltages toJson(String measureString) {
         // todo - remove - just for test
-        measureString = TEST_STRING;
+        //measureString = TEST_STRING;
 
         if (measureString==null) return null;
 
@@ -61,7 +61,7 @@ public class Utils {
             trimixData.setFractionOxygen(secondSensor.getFractionOxygen());
             float fHe = 100 - secondSensor.getFractionOxygen()*100/firstSensor.getFractionOxygen();
             trimixData.setFractionHelium(fHe);
-            trimixData.setCalculated(true);
+            trimixData.setCalculated((trimixData.getFractionHelium()+trimixData.getFractionOxygen())<100f && trimixData.getFractionHelium()>0f && trimixData.getFractionOxygen()>0);
         } else {
             throw new UnsupportedOperationException();
         }
