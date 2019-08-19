@@ -3,7 +3,7 @@ package si.gounitis.trimixmix.model;
 public class SensorData {
     private boolean calibrated = false;
     private String tipText = "Calibrate sensor";
-    private float sensorOffset = -0.40f;
+    private float sensorOffset = -0.00f;
     private float sensorFactor;
     private float sensorVoltage;
     private float sensorMinVoltage = 3f; // on air

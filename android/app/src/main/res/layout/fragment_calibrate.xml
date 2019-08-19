@@ -89,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="Adjust" />
+                android:text="QUICK INSTRUCTIONS\n 1. Calibrate sensors with\n    * comressor switched on\n    * oxygen and heliun inlets closed\n 2. Set desired helium mixture\n 3. Switch to MIX tab" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

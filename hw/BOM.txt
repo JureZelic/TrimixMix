@@ -1,4 +1,6 @@
-OTG Adapter -  $2.19
-ADS1115 -      $3.78
-Adruino nano - $5.60
-2x FC68130 PHONE AUDIO JACK, MONO, 3.5MM, 1POS, PCB 85366990 - 0,53EU
+OTG kabel -  $1.19
+ADS1115 -      $1.6
+Adruino nano - $2.68
+4x 3.5mm Connectors MONO Male Plug Jack Audio Adapter  0.3x4 = $1.2
+2x FC68130 PHONE AUDIO JACK, MONO, 3.5MM, 1POS, PCB 85366990 - 0,53x2=1EU
+Tiskanina 0.5EU

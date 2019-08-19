@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     //
     private TrimixData trimixData = new TrimixData();
 
+    private boolean calibrateHandlersAttached = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                                 getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                         R.color.steelblue));
                             }
-                            attachCalibrateHandlers(); // todo tole daj nekam drugam, če ne moraš tja in nazaj, da se pokliče
                         }
                     }
 
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         updateHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                attachCalibrateHandlers();
                 updateOutputFields();
                 updateHandler.postDelayed(this, 300);
             }
@@ -183,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void attachCalibrateHandlers() {
+        if (calibrateHandlersAttached)
+            return;
         final Button redCalibrateButton = findViewById(R.id.redCalibrateButton);
         redCalibrateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -195,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 tryCalibrate(trimixData.getGreenSensor());
             }
         });
+        calibrateHandlersAttached = true;
     }
 
     private void tryCalibrate(SensorData sensor) {
@@ -212,9 +217,9 @@ public class MainActivity extends AppCompatActivity {
     private void getMeasurenments() {
         Voltages voltages = null;
         Date fiveSecondsAgo = new Date(System.currentTimeMillis() - (5 * 1000));
-        if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp())) {
+        //if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp())) { // todo test
             voltages = Utils.toJson(readData.getValue());
-        }
+        //}
         if (voltages==null) {
             trimixData.getRedSensor().setSensorVoltage(0);
             trimixData.getRedSensor().setFractionOxygen(0);

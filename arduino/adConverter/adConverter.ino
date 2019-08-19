@@ -30,13 +30,16 @@
 //#define ADS_RESOLUTION      0.0625
 //#define ADS_GAIN            GAIN_FOUR // ±1.024 V
 //#define ADS_RESOLUTION      0.03125
-#define ADS_GAIN            GAIN_EIGHT // ±0.512 V
-#define ADS_RESOLUTION      0.015625
-//#define ADS_GAIN            GAIN_SIXTEEN // ±0.256 V 
-//#define ADS_RESOLUTION      0.0078125
+//#define ADS_GAIN            GAIN_EIGHT // ±0.512 V
+//#define ADS_RESOLUTION      0.015625
+#define ADS_GAIN            GAIN_SIXTEEN // ±0.256 V 
+#define ADS_RESOLUTION      0.0078125
+
+#define ADS_OFFSET          0.12
 
 #define SERIAL_BAUD_RATE    9600
 #define MEASURE_DELAY_MS    250
+
 
 /*=========================================================================
       Macros
@@ -85,10 +88,10 @@ void loop() {
   int adr3 = analogRead(A3);
 
   // convert everithing to milli volts
-  float ads0mV = ads0 * ADS_RESOLUTION;
-  float ads1mV = ads1 * ADS_RESOLUTION;
-  float ads2mV = ads2 * ADS_RESOLUTION;
-  float ads3mV = ads3 * ADS_RESOLUTION;
+  float ads0mV = ads0 * ADS_RESOLUTION + ADS_OFFSET;
+  float ads1mV = ads1 * ADS_RESOLUTION + ADS_OFFSET;
+  float ads2mV = ads2 * ADS_RESOLUTION + ADS_OFFSET;
+  float ads3mV = ads3 * ADS_RESOLUTION + ADS_OFFSET;
 
   float adr0mV = adr0 * ADRUINO_RESOLUTION;
   float adr1mV = adr1 * ADRUINO_RESOLUTION;

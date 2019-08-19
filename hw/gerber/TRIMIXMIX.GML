@@ -1,5 +1,5 @@
 G04*
-G04  File:            TRIMIXMIX.GML, Mon Jul 08 11:31:40 2019*
+G04  File:            TRIMIXMIX.GML, Fri Jul 12 22:12:15 2019*
 G04  Source:          P-CAD 2000 PCB, Version 15.10.17, (C:\Jure\Projekti\gitprojekti\TrimixMix\hw\trimixmix.pcb)*
 G04  Format:          Gerber Format (RS-274-D), ASCII*
 G04*
@@ -102,102 +102,27 @@ G04*
 G04  D10 : "Ellipse X10.0mil Y10.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
 G04  Disc: OuterDia=0.0100*
 %ADD10C, 0.0100*%
-G04  D11 : "Ellipse X12.0mil Y12.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
-G04  Disc: OuterDia=0.0120*
-%ADD11C, 0.0120*%
-G04  D12 : "Ellipse X15.0mil Y15.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
-G04  Disc: OuterDia=0.0150*
-%ADD12C, 0.0150*%
-G04  D13 : "Ellipse X20.0mil Y20.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
-G04  Disc: OuterDia=0.0200*
-%ADD13C, 0.0200*%
-G04  D14 : "Ellipse X25.0mil Y25.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
-G04  Disc: OuterDia=0.0250*
-%ADD14C, 0.0250*%
-G04  D15 : "Ellipse X30.0mil Y30.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
+G04  D11 : "Ellipse X30.0mil Y30.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
 G04  Disc: OuterDia=0.0300*
-%ADD15C, 0.0300*%
-G04  D16 : "Ellipse X50.0mil Y50.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
-G04  Disc: OuterDia=0.0500*
-%ADD16C, 0.0500*%
-G04  D17 : "Ellipse X100.0mil Y60.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Obround: DimX=0.1000, DimY=0.0600, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD17O, 0.1000 X0.0600*%
-G04  D18 : "Ellipse X115.0mil Y75.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Obround: DimX=0.1150, DimY=0.0750, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD18O, 0.1150 X0.0750*%
-G04  D19 : "Ellipse X60.0mil Y60.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0600*
-%ADD19C, 0.0600*%
-G04  D20 : "Ellipse X62.0mil Y62.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0620*
-%ADD20C, 0.0620*%
-G04  D21 : "Ellipse X70.0mil Y70.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0700*
-%ADD21C, 0.0700*%
-G04  D22 : "Ellipse X75.0mil Y75.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0750*
-%ADD22C, 0.0750*%
-G04  D23 : "Ellipse X85.0mil Y85.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0850*
-%ADD23C, 0.0850*%
-G04  D24 : "Mounting Hole X200.0mil Y200.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Mounting Hole: Diameter=0.2000, Rotation=0.0, LineWidth=0.0050 *
-%ADD24MTHOLE, 0.2000 X0.1800 X0.0050 X0.0*%
-G04  D25 : "Rounded Rectangle X100.0mil Y60.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  RoundRct: DimX=0.1000, DimY=0.0600, CornerRad=0.0150, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD25ROUNDRECTNOHOLE, 0.1000 X0.0600 X0.0 X0.0300 X-0.0350 X-0.0150 X-0.0350 X0.0150*%
-G04  D26 : "Rounded Rectangle X115.0mil Y75.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  RoundRct: DimX=0.1150, DimY=0.0750, CornerRad=0.0187, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD26ROUNDRECTNOHOLE, 0.1150 X0.0750 X0.0 X0.0375 X-0.0388 X-0.0187 X-0.0388 X0.0187*%
-G04  D27 : "Rounded Rectangle X50.0mil Y350.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  RoundRct: DimX=0.0500, DimY=0.3500, CornerRad=0.0125, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD27ROUNDRECTNOHOLE, 0.0500 X0.3500 X0.0 X0.0250 X-0.0125 X-0.1625 X-0.0125 X0.1625*%
-G04  D28 : "Rounded Rectangle X65.0mil Y365.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  RoundRct: DimX=0.0650, DimY=0.3650, CornerRad=0.0163, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD28ROUNDRECTNOHOLE, 0.0650 X0.3650 X0.0 X0.0325 X-0.0163 X-0.1663 X-0.0163 X0.1663*%
-G04  D29 : "Rounded Rectangle X80.0mil Y50.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  RoundRct: DimX=0.0800, DimY=0.0500, CornerRad=0.0125, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD29ROUNDRECTNOHOLE, 0.0800 X0.0500 X0.0 X0.0250 X-0.0275 X-0.0125 X-0.0275 X0.0125*%
-G04  D30 : "Rounded Rectangle X95.0mil Y65.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  RoundRct: DimX=0.0950, DimY=0.0650, CornerRad=0.0163, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000 *
-%ADD30ROUNDRECTNOHOLE, 0.0950 X0.0650 X0.0 X0.0325 X-0.0313 X-0.0163 X-0.0313 X0.0163*%
-G04  D31 : "Rectangle X60.0mil Y60.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Square: Side=0.0600, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000*
-%ADD31R, 0.0600 X0.0600*%
-G04  D32 : "Rectangle X70.0mil Y70.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Square: Side=0.0700, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000*
-%ADD32R, 0.0700 X0.0700*%
-G04  D33 : "Rectangle X75.0mil Y75.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Square: Side=0.0750, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000*
-%ADD33R, 0.0750 X0.0750*%
-G04  D34 : "Rectangle X85.0mil Y85.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Square: Side=0.0850, Rotation=0.0, OffsetX=0.0000, OffsetY=0.0000, HoleDia=0.0000*
-%ADD34R, 0.0850 X0.0850*%
-G04  D35 : "Ellipse X35.0mil Y35.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0350*
-%ADD35C, 0.0350*%
-G04  D36 : "Ellipse X40.0mil Y40.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0400*
-%ADD36C, 0.0400*%
-G04  D37 : "Ellipse X50.0mil Y50.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0500*
-%ADD37C, 0.0500*%
-G04  D38 : "Ellipse X55.0mil Y55.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0550*
-%ADD38C, 0.0550*%
-G04  D39 : "Ellipse X65.0mil Y65.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0650*
-%ADD39C, 0.0650*%
-G04  D40 : "Ellipse X77.0mil Y77.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
-G04  Disc: OuterDia=0.0770*
-%ADD40C, 0.0770*%
-G04  D41 : "Ellipse X80.0mil Y80.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
+%ADD11C, 0.0300*%
+G04  D12 : "Ellipse X4.0mil Y4.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
+G04  Disc: OuterDia=0.0040*
+%ADD12C, 0.0040*%
+G04  D13 : "Ellipse X8.0mil Y8.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Draw"*
+G04  Disc: OuterDia=0.0080*
+%ADD13C, 0.0080*%
+G04  D14 : "Ellipse X150.0mil Y150.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
+G04  Disc: OuterDia=0.1500*
+%ADD14C, 0.1500*%
+G04  D15 : "Ellipse X165.0mil Y165.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
+G04  Disc: OuterDia=0.1650*
+%ADD15C, 0.1650*%
+G04  D16 : "Ellipse X80.0mil Y80.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
 G04  Disc: OuterDia=0.0800*
-%ADD41C, 0.0800*%
-G04  D42 : "Ellipse X95.0mil Y95.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
+%ADD16C, 0.0800*%
+G04  D17 : "Ellipse X95.0mil Y95.0mil H0.0mil 0.0deg (0.0mil,0.0mil) Flash"*
 G04  Disc: OuterDia=0.0950*
-%ADD42C, 0.0950*%
+%ADD17C, 0.0950*%
 G04*
 %FSLAX44Y44*%
 %SFA1B1*%
@@ -208,7 +133,7 @@ G90*
 G01*
 D2*
 %LNBoard*%
-D10*
+D12*
 X28000Y53250*
 Y42000D1*
 X64000D2*
