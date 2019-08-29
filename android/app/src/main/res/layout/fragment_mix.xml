@@ -14,14 +14,12 @@
         android:layout_height="0dp"
         android:layout_weight=".5"
         android:orientation="horizontal">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:background="#ff4d4d"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/redSensorDisplay"
                 android:gravity="center"
@@ -33,9 +31,9 @@
                 android:background="@drawable/digital_display"
                 android:text="--------"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -58,7 +56,6 @@
                 android:background="@drawable/digital_display"
                 android:text="--------"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
         </LinearLayout>
     </LinearLayout>
 
