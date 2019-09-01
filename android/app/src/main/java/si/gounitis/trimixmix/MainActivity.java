@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
     private void getMeasurenments() {
         Voltages voltages = null;
         Date fiveSecondsAgo = new Date(System.currentTimeMillis() - (5 * 1000));
-        //if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp()))  // todo comment for test
+        if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp()))  // todo comment for test
             voltages = Utils.toJson(readData.getValue());
 
         if (voltages==null) {

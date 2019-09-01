@@ -104,7 +104,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="15dp"
+                android:textSize="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
                 android:text="QUICK INSTRUCTIONS\n 1. Connect the red cable to first stage sensor and the green one to second.\n 2. Calibrate sensors with\n    * comressor switched on\n    * oxygen and heliun inlets closed\n 3. Set desired helium and switch to MIX tab" />

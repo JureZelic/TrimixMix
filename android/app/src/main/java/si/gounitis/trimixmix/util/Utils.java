@@ -13,7 +13,7 @@ public class Utils {
     private static String TEST_STRING = "{\"ads0mv\":7.123,\"ads1mv\":2.325,\"ads2mv\":0.01,\"ads3mv\":0.01,\"adr0mv\":0.01,\"adr1mv\":0.01,\"adr2mv\":0.01,\"adr3mv\":0.01}";
 
     public static Voltages toJson(String measureString) {
-        measureString = TEST_STRING; // todo uncoment for test
+        //measureString = TEST_STRING; // todo comment for test
 
         if (measureString==null) return null;
 
