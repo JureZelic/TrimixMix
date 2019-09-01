@@ -58,7 +58,7 @@ public class Utils {
                 secondSensor = trimixData.getRedSensor();
             }
             trimixData.setFractionOxygen(secondSensor.getFractionOxygen());
-            float fHe = 100 - secondSensor.getFractionOxygen()*100/firstSensor.getFractionOxygen();
+            float fHe = 100f - secondSensor.getFractionOxygen()*100f/firstSensor.getFractionOxygen();
             trimixData.setFractionHelium(fHe);
             trimixData.setCalculated((trimixData.getFractionHelium()+trimixData.getFractionOxygen())<100f && trimixData.getFractionHelium()>=0f && trimixData.getFractionOxygen()>=0f);
         } else {
@@ -67,9 +67,14 @@ public class Utils {
     }
 
     public static float calculateAfterOxygenSensor(TrimixData trimixData) {
-        if (trimixData.isOxygenFirstMode())
-            // todo
-            return 1.2f;
+        if (trimixData.isOxygenFirstMode()) {
+            float oxygenFlow = getActualOxygenFlow(trimixData);
+            float heliumFlow = getActualHeliumFlow(trimixData);
+            float desiredOxygenFlow = getDesiredOxygenFlow(trimixData);
+            float desiredHeliumFlow = getDesiredHeliumFlow(trimixData);
+            float airFlow = 100f - desiredOxygenFlow - heliumFlow;
+            return getNitrox(20.9f, airFlow, 100f, desiredOxygenFlow);
+        }
         else
             throw new UnsupportedOperationException();
     }
@@ -79,5 +84,26 @@ public class Utils {
             return trimixData.getDesiredFractionOxygen();
         else
             throw new UnsupportedOperationException();
+    }
+
+    private static float getActualOxygenFlow(TrimixData trimixData) {
+        return (100 - getActualHeliumFlow(trimixData)) * (trimixData.getFractionOxygen()/(100f-trimixData.getFractionHelium()) *100f - 20.9f) / (100f-20.9f);
+    }
+
+    private static float getActualHeliumFlow(TrimixData trimixData) {
+        return trimixData.getFractionHelium();
+    }
+
+    private static float getDesiredOxygenFlow(TrimixData trimixData) {
+        return (100 - getDesiredHeliumFlow(trimixData)) * (trimixData.getDesiredFractionOxygen()/(100f-trimixData.getDesiredFractionHelium()) *100f - 20.9f) / (100f-20.9f);
+    }
+
+    private static float getDesiredHeliumFlow(TrimixData trimixData) {
+        return trimixData.getDesiredFractionHelium();
+    }
+
+    private static float getNitrox(float nitrox1, float nitrox1Flow, float nitrox2, float nitrox2Folw) {
+        return (nitrox1*nitrox1Flow + nitrox2*nitrox2Folw)/(nitrox1Flow + nitrox2Folw);
+
     }
 }

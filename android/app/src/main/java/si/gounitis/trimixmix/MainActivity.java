@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.felhr.usbserial.UsbSerialInterface;
 
 import java.io.UnsupportedEncodingException;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import si.gounitis.trimixmix.model.SensorData;
@@ -117,16 +118,39 @@ public class MainActivity extends AppCompatActivity {
 
                 attachCalibrateHandlers(); // todo - find better place
 
-                if (desiredTxOxygen!=null)
-                    trimixData.setDesiredFractionOxygen(Float.parseFloat(desiredTxOxygen.getText().toString()));
-                if (desiredTxHelium!=null)
-                    trimixData.setDesiredFractionHelium(Float.parseFloat(desiredTxHelium.getText().toString()));
+                trimixData.setDesiredFractionOxygen(getDesiredValue(desiredTxOxygen));
+                trimixData.setDesiredFractionHelium(getDesiredValue(desiredTxHelium));
 
                 updateOutputFields();
 
                 updateHandler.postDelayed(this, 300);
             }
         },300);
+    }
+
+    private float getDesiredValue(EditText text) {
+        if (text==null)
+            return 0f;
+
+        float rv;
+        try {
+            String fValue = text.getText().toString();
+            if (fValue.equals(""))
+                return 0;
+            rv = Float.parseFloat(fValue);
+            if (rv<0f || rv >90f) {
+                rv = 0;
+                String rvText = NumberFormat.getInstance(MainActivity.this.getResources().getConfiguration().locale).format(rv);
+                text.setText(rvText);
+            }
+        } catch (Exception e) {
+            rv = 0;
+            // https://stackoverflow.com/questions/23791303/how-to-call-settext-using-a-float
+            String rvText = NumberFormat.getInstance(MainActivity.this.getResources().getConfiguration().locale).format(rv);
+            text.setText(rvText);
+        }
+
+        return rv;
     }
 
     @Override
