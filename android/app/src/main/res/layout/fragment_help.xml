@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#E6E6FA"
     tools:context=".HelpFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Help" />
+        android:textSize="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="Copyright © 2019 Jurij Zelič\n\nThis program comes with ABSOLUTELY NO WARRANTY.\n\nThis is free software, and you are welcome to redistribute it under the terms of GNU General Public License v3.0.\n\nHandling pure Oxygen and/or compressed gas is dangerous so make sure that you know exactly what you are doing before performing any activity\n\nVance Harlow's OXYGEN HACKER'S COMPANION book (airspeedpress.com) is a great start.\n\nTech Diving Mag - issue 11 also has an article on Continuous Gas Blending Using Double Oxygen Analyzer.\n\nSource code, schematics, gerber files, firmware and some useful tips can be found on https://github.com/JureZelic/TrimixMix\n\nThis version of TrimixMix only supports oxygen first mixing mode. If Helium first mode is needed please contact the developer."/>
 
-</FrameLayout>
+</LinearLayout>

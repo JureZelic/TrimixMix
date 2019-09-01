@@ -4,6 +4,8 @@ public class TrimixData {
     private boolean oxygenFirstMode = true;
     private float fractionOxygen;
     private float fractionHelium;
+    private float desiredFractionOxygen;
+    private float desiredFractionHelium;
     private SensorData redSensor = new SensorData();
     private SensorData greenSensor = new SensorData();
     private boolean calculated = false;
@@ -30,6 +32,22 @@ public class TrimixData {
 
     public void setFractionHelium(float fractionHelium) {
         this.fractionHelium = fractionHelium;
+    }
+
+    public float getDesiredFractionOxygen() {
+        return desiredFractionOxygen;
+    }
+
+    public void setDesiredFractionOxygen(float desiredFractionOxygen) {
+        this.desiredFractionOxygen = desiredFractionOxygen;
+    }
+
+    public float getDesiredFractionHelium() {
+        return desiredFractionHelium;
+    }
+
+    public void setDesiredFractionHelium(float desiredFractionHelium) {
+        this.desiredFractionHelium = desiredFractionHelium;
     }
 
     public SensorData getRedSensor() {

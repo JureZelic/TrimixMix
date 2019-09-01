@@ -13,8 +13,7 @@ public class Utils {
     private static String TEST_STRING = "{\"ads0mv\":7.123,\"ads1mv\":2.325,\"ads2mv\":0.01,\"ads3mv\":0.01,\"adr0mv\":0.01,\"adr1mv\":0.01,\"adr2mv\":0.01,\"adr3mv\":0.01}";
 
     public static Voltages toJson(String measureString) {
-        // todo - remove - just for test
-        //measureString = TEST_STRING;
+        measureString = TEST_STRING; // todo uncoment for test
 
         if (measureString==null) return null;
 
@@ -61,9 +60,24 @@ public class Utils {
             trimixData.setFractionOxygen(secondSensor.getFractionOxygen());
             float fHe = 100 - secondSensor.getFractionOxygen()*100/firstSensor.getFractionOxygen();
             trimixData.setFractionHelium(fHe);
-            trimixData.setCalculated((trimixData.getFractionHelium()+trimixData.getFractionOxygen())<100f && trimixData.getFractionHelium()>0f && trimixData.getFractionOxygen()>0);
+            trimixData.setCalculated((trimixData.getFractionHelium()+trimixData.getFractionOxygen())<100f && trimixData.getFractionHelium()>=0f && trimixData.getFractionOxygen()>=0f);
         } else {
             throw new UnsupportedOperationException();
         }
+    }
+
+    public static float calculateAfterOxygenSensor(TrimixData trimixData) {
+        if (trimixData.isOxygenFirstMode())
+            // todo
+            return 1.2f;
+        else
+            throw new UnsupportedOperationException();
+    }
+
+    public static float calculateAfterHeliumSensor(TrimixData trimixData) {
+        if (trimixData.isOxygenFirstMode())
+            return trimixData.getDesiredFractionOxygen();
+        else
+            throw new UnsupportedOperationException();
     }
 }

@@ -19,15 +19,14 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:background="#ff4d4d"
+            android:gravity="center"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/redSensorDisplay"
                 android:gravity="center"
                 android:layout_width="250dp"
+                android:textSize="35dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
                 android:background="@drawable/digital_display"
                 android:text="--------"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
@@ -43,16 +42,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:gravity="center"
             android:layout_marginBottom="5dp"
             android:background="#4dff88">
             <TextView
                 android:id="@+id/greenSensorDisplay"
                 android:gravity="center"
                 android:layout_width="250dp"
+                android:textSize="35dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
                 android:background="@drawable/digital_display"
                 android:text="--------"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
@@ -68,16 +66,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:gravity="center"
             android:layout_marginBottom="5dp"
             android:background="#80bfff">
             <TextView
                 android:id="@+id/trimixDisplay"
                 android:gravity="center"
                 android:layout_width="250dp"
+                android:textSize="35dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
                 android:background="@drawable/digital_display"
                 android:text="--------"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
@@ -95,11 +92,51 @@
             android:orientation="vertical"
             android:background="#ffff99">
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="QUICK INSTRUCTIONS\n 1." />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:text="QUICK INSTRUCTIONS" />
+            <TextView
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:text="1. Adjust Oxygen so Oxygen stage sensor reads" />
+            <TextView
+                android:gravity="center"
+                android:textSize="15dp"
+                android:id="@+id/firstSensorDisplay"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/digital_display"
+                android:text="--------"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+            <TextView
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:text="2. Adjust Helium so Helium stage sensor reads" />
+            <TextView
+                android:gravity="center"
+                android:textSize="15dp"
+                android:id="@+id/secondSensorDisplay"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/digital_display"
+                android:text="--------"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

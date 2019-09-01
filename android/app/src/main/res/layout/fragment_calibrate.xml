@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:gravity="center"
             android:layout_marginBottom="5dp"
             android:background="#ff4d4d">
 
@@ -23,10 +24,8 @@
                 android:id="@+id/redCalibrateButton"
                 android:textAllCaps="false"
                 android:layout_width="250dp"
+                android:textSize="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
                 android:text="----" />
         </LinearLayout>
     </LinearLayout>
@@ -40,16 +39,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:gravity="center"
             android:layout_marginBottom="5dp"
             android:background="#4dff88">
             <Button
                 android:id="@+id/greenCalibrateButton"
                 android:textAllCaps="false"
                 android:layout_width="250dp"
+                android:textSize="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
                 android:text="----" />
 
         </LinearLayout>
@@ -106,9 +104,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textSize="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                android:text="QUICK INSTRUCTIONS\n 1. Calibrate sensors with\n    * comressor switched on\n    * oxygen and heliun inlets closed\n 2. Set desired helium mixture\n 3. Switch to MIX tab" />
+                android:text="QUICK INSTRUCTIONS\n 1. Connect the red cable to first stage sensor and the green one to second.\n 2. Calibrate sensors with\n    * comressor switched on\n    * oxygen and heliun inlets closed\n 3. Set desired helium and switch to MIX tab" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -1,8 +1,5 @@
 package si.gounitis.trimixmix;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
@@ -15,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.felhr.usbserial.UsbSerialInterface;
@@ -44,9 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private ReadData readData = new ReadData();
 
     //
-    private TrimixData trimixData = new TrimixData();
-
-    private boolean calibrateHandlersAttached = false;
+    private static final TrimixData trimixData = new TrimixData();
+    private static boolean calibrateHandlersAttached = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +112,18 @@ public class MainActivity extends AppCompatActivity {
         updateHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                attachCalibrateHandlers();
+                EditText desiredTxOxygen = findViewById(R.id.desiredTxOxygen);
+                EditText desiredTxHelium = findViewById(R.id.desiredTxHelium);
+
+                attachCalibrateHandlers(); // todo - find better place
+
+                if (desiredTxOxygen!=null)
+                    trimixData.setDesiredFractionOxygen(Float.parseFloat(desiredTxOxygen.getText().toString()));
+                if (desiredTxHelium!=null)
+                    trimixData.setDesiredFractionHelium(Float.parseFloat(desiredTxHelium.getText().toString()));
+
                 updateOutputFields();
+
                 updateHandler.postDelayed(this, 300);
             }
         },300);
@@ -148,57 +155,74 @@ public class MainActivity extends AppCompatActivity {
         Button greenCalibrateButton = findViewById(R.id.greenCalibrateButton);
         TextView greenSensorDisplay = findViewById(R.id.greenSensorDisplay);
         TextView trimixDisplay = findViewById(R.id.trimixDisplay);
+        TextView firstSensorDisplay = findViewById(R.id.firstSensorDisplay);
+        TextView secondSensorDisplay = findViewById(R.id.secondSensorDisplay);
 
         getMeasurenments();
 
         SensorData sensorData;
 
-        sensorData = trimixData.getRedSensor();
-        if (redCalibrateButton!=null) {
+        try {
+            sensorData = trimixData.getRedSensor();
             redCalibrateButton.setText("Calibrate (" + String.format("%.1f", (sensorData.getSensorVoltage() - sensorData.getSensorOffset())) + "mV)");
-        }
 
-        if (redSensorDisplay!=null && sensorData.isCalibrated() && sensorData.getFractionOxygen()>0f && sensorData.getFractionOxygen()<100f) {
-            redSensorDisplay.setText(""+String.format("%.1f",sensorData.getFractionOxygen()) + "%");
-        } else {
-            redSensorDisplay.setText("--------");
-        }
 
-        sensorData = trimixData.getGreenSensor();
-        if (greenCalibrateButton!=null) {
+            if (sensorData.isCalibrated() && sensorData.getFractionOxygen() > 0f && sensorData.getFractionOxygen() < 100f) {
+                redSensorDisplay.setText("" + String.format("%.1f", sensorData.getFractionOxygen()) + "%");
+            } else {
+                redSensorDisplay.setText("--------");
+            }
+
+            sensorData = trimixData.getGreenSensor();
             greenCalibrateButton.setText("Calibrate (" + String.format("%.1f", (sensorData.getSensorVoltage() - sensorData.getSensorOffset())) + "mV)");
-        }
 
-        if (greenSensorDisplay!=null && sensorData.isCalibrated() && sensorData.getFractionOxygen()>0f && sensorData.getFractionOxygen()<100f) {
-            greenSensorDisplay.setText("" + String.format("%.1f", sensorData.getFractionOxygen()) + "%");
-        } else {
-            greenSensorDisplay.setText("--------");
-        }
+            if (sensorData.isCalibrated() && sensorData.getFractionOxygen() > 0f && sensorData.getFractionOxygen() < 100f) {
+                greenSensorDisplay.setText("" + String.format("%.1f", sensorData.getFractionOxygen()) + "%");
+            } else {
+                greenSensorDisplay.setText("--------");
+            }
 
-        if (trimixData.getRedSensor().isCalibrated() &&  trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
-            if (trimixDisplay!=null)
+            if (trimixData.getRedSensor().isCalibrated() && trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
                 trimixDisplay.setText("Tx" + String.format("%.1f", trimixData.getFractionOxygen()) + "/" + String.format("%.1f", trimixData.getFractionHelium()));
-        } else {
-            if (trimixDisplay!=null)
+            } else {
                 trimixDisplay.setText("--------");
+            }
+
+            if (trimixData.getRedSensor().isCalibrated() && trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
+                firstSensorDisplay.setText(String.format("%.1f", Utils.calculateAfterOxygenSensor(trimixData)));
+            } else {
+                firstSensorDisplay.setText("--------");
+            }
+
+            if (trimixData.getRedSensor().isCalibrated() && trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
+                secondSensorDisplay.setText(String.format("%.1f", Utils.calculateAfterHeliumSensor(trimixData)));
+            } else {
+                secondSensorDisplay.setText("--------");
+            }
+        } catch (Exception e) {
         }
     }
 
     private void attachCalibrateHandlers() {
         if (calibrateHandlersAttached)
             return;
-        final Button redCalibrateButton = findViewById(R.id.redCalibrateButton);
-        redCalibrateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                tryCalibrate(trimixData.getRedSensor());
-            }
-        });
-        final Button greenCalibrateButton = findViewById(R.id.greenCalibrateButton);
-        greenCalibrateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                tryCalibrate(trimixData.getGreenSensor());
-            }
-        });
+        try {
+            final Button redCalibrateButton = findViewById(R.id.redCalibrateButton);
+            redCalibrateButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    tryCalibrate(trimixData.getRedSensor());
+                }
+            });
+            final Button greenCalibrateButton = findViewById(R.id.greenCalibrateButton);
+            greenCalibrateButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    tryCalibrate(trimixData.getGreenSensor());
+                }
+            });
+        } catch (Exception e) {
+            calibrateHandlersAttached = false;
+            return;
+        }
         calibrateHandlersAttached = true;
     }
 
@@ -217,9 +241,9 @@ public class MainActivity extends AppCompatActivity {
     private void getMeasurenments() {
         Voltages voltages = null;
         Date fiveSecondsAgo = new Date(System.currentTimeMillis() - (5 * 1000));
-        //if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp())) { // todo test
+        //if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp()))  // todo comment for test
             voltages = Utils.toJson(readData.getValue());
-        //}
+
         if (voltages==null) {
             trimixData.getRedSensor().setSensorVoltage(0);
             trimixData.getRedSensor().setFractionOxygen(0);
@@ -238,8 +262,6 @@ public class MainActivity extends AppCompatActivity {
         Utils.calculateOxygen(sensorData);
 
         Utils.calculateTrimix(trimixData);
-
-
     }
 
     // USB
