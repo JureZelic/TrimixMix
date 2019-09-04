@@ -6,6 +6,8 @@
     android:orientation="vertical"
     android:background="#E6E6FA"
     android:padding="10dp"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     tools:context=".CalibrateFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,13 +103,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="#ffff99">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:autoSizeTextType="uniform"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:text="QUICK INSTRUCTIONS\n 1. Connect the red cable to first stage sensor and the green one to second.\n 2. Calibrate sensors with\n    * comressor switched on\n    * oxygen and heliun inlets closed\n 3. Set desired helium and switch to MIX tab" />
+            <ScrollView
+                android:id="@+id/SCROLLER_ID"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:fillViewport="true">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="14dp"
+                    android:text="QUICK INSTRUCTIONS\n 1. Connect the red cable to first stage sensor and the green one to second.\n 2. Calibrate sensors with\n    * comressor switched on\n    * oxygen and heliun inlets closed\n 3. Set desired helium and switch to MIX tab" />
+            </ScrollView>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

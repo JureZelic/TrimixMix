@@ -213,18 +213,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (trimixData.getRedSensor().isCalibrated() && trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
-                firstSensorDisplay.setText(String.format("%.1f", Utils.calculateAfterOxygenSensor(trimixData)));
+                float afterOxygenData = Utils.calculateAfterOxygenSensor(trimixData);
+                float afterHeliumData =  Utils.calculateAfterHeliumSensor(trimixData);
+                if (dataOK(afterOxygenData, afterHeliumData )) {
+                    firstSensorDisplay.setText(String.format("%.1f", afterOxygenData));
+                    secondSensorDisplay.setText(String.format("%.1f", afterHeliumData));
+                } else {
+                    firstSensorDisplay.setText("--------");
+                    secondSensorDisplay.setText("--------");
+                }
             } else {
                 firstSensorDisplay.setText("--------");
-            }
-
-            if (trimixData.getRedSensor().isCalibrated() && trimixData.getGreenSensor().isCalibrated() && trimixData.isCalculated()) {
-                secondSensorDisplay.setText(String.format("%.1f", Utils.calculateAfterHeliumSensor(trimixData)));
-            } else {
                 secondSensorDisplay.setText("--------");
             }
+
         } catch (Exception e) {
         }
+    }
+
+    private boolean dataOK(float afterOxygenData, float afterHeliumData) {
+        return afterOxygenData<90f && afterOxygenData>0f & afterHeliumData <40f & afterHeliumData>0f;
     }
 
     private void attachCalibrateHandlers() {

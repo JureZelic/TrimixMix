@@ -1,6 +1,7 @@
-OTG kabel -  $1.19
+OTG adapter -  $1.19
 ADS1115 -      $1.6
 Adruino nano - $2.68
 4x 3.5mm Connectors MONO Male Plug Jack Audio Adapter  0.3x4 = $1.2
+2x 0.5m mikrofonski kabel 1x0.25  -0,72EU
 2x FC68130 PHONE AUDIO JACK, MONO, 3.5MM, 1POS, PCB 85366990 - 0,53x2=1EU
-Tiskanina 0.5EU
+Printed cicuit 0.5EU
