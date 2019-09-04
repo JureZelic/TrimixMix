@@ -5,15 +5,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import si.gounitis.trimixmix.model.SensorData;
+import si.gounitis.trimixmix.model.SensorStatus;
 import si.gounitis.trimixmix.model.TrimixData;
 import si.gounitis.trimixmix.model.Voltages;
 
 public class Utils {
 
-    private static String TEST_STRING = "{\"ads0mv\":7.123,\"ads1mv\":2.325,\"ads2mv\":0.01,\"ads3mv\":0.01,\"adr0mv\":0.01,\"adr1mv\":0.01,\"adr2mv\":0.01,\"adr3mv\":0.01}";
+    private static String TEST_STRING = "{\"ads0mv\":7.123,\"ads1mv\":3.325,\"ads2mv\":0.01,\"ads3mv\":0.01,\"adr0mv\":0.01,\"adr1mv\":0.01,\"adr2mv\":0.01,\"adr3mv\":0.01}";
 
     public static Voltages toJson(String measureString) {
-        //measureString = TEST_STRING; // todo comment for test
+        //measureString = TEST_STRING; // todo uncomment for test
 
         if (measureString==null) return null;
 
@@ -28,17 +29,22 @@ public class Utils {
     }
 
     public static void calibrate(SensorData sensorData) {
+        sensorData.setStatus(SensorStatus.CALIBRATING);
+
         // check if enough voltage
-        if (sensorData.getSensorVoltage()<sensorData.getSensorMinVoltage() || sensorData.getSensorVoltage()>sensorData.getSensorMaxVoltage()) {
-            sensorData.setTipText("Check sensor");
+        if (sensorData.getSensorVoltage()<sensorData.getSensorMinVoltage()) {
+            sensorData.setStatus(SensorStatus.VOLTAGE_LOW);
+        } else if (sensorData.getSensorVoltage()>sensorData.getSensorMaxVoltage()) {
+            sensorData.setStatus(SensorStatus.VOLTAGE_HIGH);
+        } else {
+            // calibrate
+            sensorData.setSensorFactor(20.9f / (sensorData.getSensorVoltage() - sensorData.getSensorOffset()));
+            sensorData.setStatus(SensorStatus.CALIBRATED);
         }
-        // calibrate
-        sensorData.setSensorFactor(20.9f / (sensorData.getSensorVoltage()-sensorData.getSensorOffset()));
-        sensorData.setCalibrated(true);
     }
 
     public static void calculateOxygen(SensorData sensorData) {
-        if (sensorData.isCalibrated())
+        if (sensorData.getStatus().equals(SensorStatus.CALIBRATED))
             sensorData.setFractionOxygen(sensorData.getSensorFactor()*(sensorData.getSensorVoltage()-sensorData.getSensorOffset()));
     }
 
