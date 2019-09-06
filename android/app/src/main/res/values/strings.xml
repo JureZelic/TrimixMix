@@ -4,7 +4,4 @@
     <string name="mix">Mix</string>
     <string name="calibrate">Calibrate</string>
     <string name="help">About</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

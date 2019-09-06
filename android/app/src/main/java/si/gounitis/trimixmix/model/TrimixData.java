@@ -1,6 +1,8 @@
 package si.gounitis.trimixmix.model;
 
 public class TrimixData {
+    private static final TrimixData instance = new TrimixData();
+
     private boolean oxygenFirstMode = true;
     private float fractionOxygen;
     private float fractionHelium;
@@ -9,6 +11,15 @@ public class TrimixData {
     private SensorData redSensor = new SensorData();
     private SensorData greenSensor = new SensorData();
     private boolean calculated = false;
+
+    // singletone constructor
+    private TrimixData() {
+
+    }
+
+    public static TrimixData getTrimixData() {
+        return instance;
+    }
 
     public boolean isOxygenFirstMode() {
         return oxygenFirstMode;

@@ -10,7 +10,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     // arduiono USB
     private UsbManager usbManager;
     private static final ReadData readData = new ReadData();
-    private static final TrimixData trimixData = new TrimixData();
+    private static final TrimixData trimixData = TrimixData.getTrimixData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 EditText desiredTxOxygen = findViewById(R.id.desiredTxOxygen);
                 EditText desiredTxHelium = findViewById(R.id.desiredTxHelium);
-
-                attachCalibrateHandlers(); // todo - find better place
 
                 trimixData.setDesiredFractionOxygen(getDesiredValue(desiredTxOxygen));
                 trimixData.setDesiredFractionHelium(getDesiredValue(desiredTxHelium));
@@ -233,24 +230,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean dataOK(float afterOxygenData, float afterHeliumData) {
         return afterOxygenData<90f && afterOxygenData>0f & afterHeliumData <40f & afterHeliumData>0f;
-    }
-
-    private void attachCalibrateHandlers() {
-        try {
-            final Button redCalibrateButton = findViewById(R.id.redCalibrateButton);
-            redCalibrateButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Utils.calibrate(trimixData.getRedSensor());
-                }
-            });
-            final Button greenCalibrateButton = findViewById(R.id.greenCalibrateButton);
-            greenCalibrateButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Utils.calibrate(trimixData.getGreenSensor());
-                }
-            });
-        } catch (Exception e) {
-        }
     }
 
     // calculations
