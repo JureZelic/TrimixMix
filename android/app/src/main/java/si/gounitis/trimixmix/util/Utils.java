@@ -37,7 +37,6 @@ public class Utils {
         } else if (sensorData.getSensorVoltage()>sensorData.getSensorMaxVoltage()) {
             sensorData.setStatus(SensorStatus.VOLTAGE_HIGH);
         } else {
-            // calibrate
             sensorData.setSensorFactor(20.9f / (sensorData.getSensorVoltage() - sensorData.getSensorOffset()));
             sensorData.setStatus(SensorStatus.CALIBRATED);
         }

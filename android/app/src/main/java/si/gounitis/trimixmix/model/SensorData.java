@@ -2,7 +2,6 @@ package si.gounitis.trimixmix.model;
 
 public class SensorData {
     private SensorStatus status = SensorStatus.NOT_CALIBRATED;
-    private String tipText = "Calibrate sensor";
     private float sensorOffset = -0.00f;
     private float sensorFactor;
     private float sensorVoltage;
@@ -16,14 +15,6 @@ public class SensorData {
 
     public void setStatus(SensorStatus status) {
         this.status = status;
-    }
-
-    public String getTipText() {
-        return tipText;
-    }
-
-    public void setTipText(String tipText) {
-        this.tipText = tipText;
     }
 
     public float getSensorOffset() {

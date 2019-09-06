@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.NumberFormat;
 import java.util.Date;
 
+import si.gounitis.trimixmix.model.ReadData;
 import si.gounitis.trimixmix.model.SensorData;
 import si.gounitis.trimixmix.model.SensorStatus;
 import si.gounitis.trimixmix.model.TrimixData;
@@ -30,22 +31,17 @@ import si.gounitis.trimixmix.util.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    ViewPager viewPager;
-
-    TabLayout tabLayout;
-    TabItem tabCalibrate;
-    TabItem tabMix;
-    TabItem tabHelp;
-
-    PageAdapter pageAdapter;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private TabItem tabCalibrate;
+    private TabItem tabMix;
+    private TabItem tabHelp;
+    private PageAdapter pageAdapter;
 
     // arduiono USB
     private UsbManager usbManager;
-    private ReadData readData = new ReadData();
-
-    //
+    private static final ReadData readData = new ReadData();
     private static final TrimixData trimixData = new TrimixData();
-    private static boolean calibrateHandlersAttached = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,18 +173,14 @@ public class MainActivity extends AppCompatActivity {
     private void updateOutputFields() {
         Button redCalibrateButton = findViewById(R.id.redCalibrateButton);
         Button greenCalibrateButton = findViewById(R.id.greenCalibrateButton);
-        TextView greenSensorDisplay = findViewById(R.id.greenSensorDisplay);
         TextView trimixDisplay = findViewById(R.id.trimixDisplay);
         TextView firstSensorDisplay = findViewById(R.id.firstSensorDisplay);
         TextView secondSensorDisplay = findViewById(R.id.secondSensorDisplay);
 
-        getMeasurenments();
-
         try {
-            SensorData sensorData = trimixData.getRedSensor();
-            redCalibrateButton.setText("Calibrate (" + String.format("%.1f", (sensorData.getSensorVoltage() - sensorData.getSensorOffset())) + "mV)");
-            setQxygenDisplay(trimixData.getRedSensor(), findViewById(R.id.redSensorDisplay));
+            getMeasurenments();
 
+            SensorData sensorData = trimixData.getRedSensor();
             redCalibrateButton.setText("Calibrate (" + String.format("%.1f", (sensorData.getSensorVoltage() - sensorData.getSensorOffset())) + "mV)");
             setQxygenDisplay(trimixData.getRedSensor(), findViewById(R.id.redSensorDisplay));
 
@@ -244,76 +236,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void attachCalibrateHandlers() {
-        if (calibrateHandlersAttached)
-            return;
         try {
             final Button redCalibrateButton = findViewById(R.id.redCalibrateButton);
             redCalibrateButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    tryCalibrate(trimixData.getRedSensor());
+                    Utils.calibrate(trimixData.getRedSensor());
                 }
             });
             final Button greenCalibrateButton = findViewById(R.id.greenCalibrateButton);
             greenCalibrateButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    tryCalibrate(trimixData.getGreenSensor());
+                    Utils.calibrate(trimixData.getGreenSensor());
                 }
             });
         } catch (Exception e) {
-            calibrateHandlersAttached = false;
-            return;
-        }
-        calibrateHandlersAttached = true;
-    }
-
-    private void tryCalibrate(SensorData sensor) {
-        if (sensor.getSensorVoltage()<sensor.getSensorMinVoltage()) {
-// todo - make an error message
-            Utils.calibrate(sensor);
-        } else if (sensor.getSensorVoltage()>sensor.getSensorMaxVoltage()) {
-            Utils.calibrate(sensor);
-        } else {
-            Utils.calibrate(sensor);
         }
     }
 
     // calculations
-    private static SensorStatus prevRedStatus = SensorStatus.NOT_CALIBRATED;
-    private static SensorStatus prevGreenStatus = SensorStatus.NOT_CALIBRATED;
-
+    private static boolean restoreStatus = false;
     private void getMeasurenments() {
-        Voltages voltages;
+        if (restoreStatus) {
+            trimixData.getRedSensor().setStatus(SensorStatus.NOT_CALIBRATED);
+            trimixData.getGreenSensor().setStatus(SensorStatus.NOT_CALIBRATED);
+        }
         Date fiveSecondsAgo = new Date(System.currentTimeMillis() - (5 * 1000));
-         //readData.setTimestamp(new Date(System.currentTimeMillis())); // todo uncoment for test
+        // readData.setTimestamp(new Date(System.currentTimeMillis())); // todo uncoment for test
         // check if sensor readings are not older than 5 seconds
         if (readData.getTimestamp()!=null && fiveSecondsAgo.before(readData.getTimestamp())) {
-            voltages = Utils.toJson(readData.getValue());
-            if (trimixData.getRedSensor().getStatus().equals(SensorStatus.DISCONECTED) || trimixData.getGreenSensor().getStatus().equals(SensorStatus.DISCONECTED)) {
-                trimixData.getRedSensor().setStatus(prevRedStatus);
-                trimixData.getGreenSensor().setStatus(prevGreenStatus);
-            }
+            Voltages voltages = Utils.toJson(readData.getValue());
+            if (voltages==null)
+                return;
+
+            restoreStatus = false;
+            SensorData sensorData;
+            sensorData = trimixData.getRedSensor();
+            sensorData.setSensorVoltage(voltages.getAds0mv());
+            Utils.calculateOxygen(sensorData);
+            sensorData = trimixData.getGreenSensor();
+            sensorData.setSensorVoltage(voltages.getAds1mv());
+            Utils.calculateOxygen(sensorData);
+
+            Utils.calculateTrimix(trimixData);
         } else {
-            prevRedStatus = trimixData.getRedSensor().getStatus();
+            restoreStatus = true;
             trimixData.getRedSensor().setStatus(SensorStatus.DISCONECTED);
             trimixData.getRedSensor().setSensorVoltage(0);
             trimixData.getRedSensor().setFractionOxygen(0);
-            prevGreenStatus = trimixData.getGreenSensor().getStatus();
             trimixData.getGreenSensor().setStatus(SensorStatus.DISCONECTED);
             trimixData.getGreenSensor().setSensorVoltage(0);
             trimixData.getGreenSensor().setFractionOxygen(0);
             trimixData.setCalculated(false);
-            return;
         }
-
-        SensorData sensorData;
-        sensorData = trimixData.getRedSensor();
-        sensorData.setSensorVoltage(voltages.getAds0mv());
-        Utils.calculateOxygen(sensorData);
-        sensorData = trimixData.getGreenSensor();
-        sensorData.setSensorVoltage(voltages.getAds1mv());
-        Utils.calculateOxygen(sensorData);
-
-        Utils.calculateTrimix(trimixData);
     }
 
     // USB
@@ -332,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             readData.setValue(dataStr);
-                            readData.setTimestamp(new Date());
+                            readData.setTimestamp(new Date(System.currentTimeMillis()));
                         }
                     });
                 }
@@ -340,25 +314,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-    private class ReadData {
-        private String value;
-        private Date timestamp;
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        public Date getTimestamp() {
-            return timestamp;
-        }
-
-        public void setTimestamp(Date timestamp) {
-            this.timestamp = timestamp;
-        }
-    }
 }
